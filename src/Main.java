@@ -1,3 +1,9 @@
-public class Main {
+import java.util.Scanner;
 
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        ConsoleUI UI = new ConsoleUI(scan);
+        //call menu
+    }
 }
