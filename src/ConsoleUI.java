@@ -32,4 +32,21 @@ public class ConsoleUI {
                 " (" + song.getAlbum() + ", " + song.getYear() + ")" +
                 " [" + song.getGenre() + "] - " + formatDuration(song.getDuration()));
     }
+
+    public int promptInt(String prompt, int min, int max) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scannerUI.nextLine();
+            try {
+                int number = Integer.parseInt(input);
+                if (number < min || number > max) {
+                    System.out.println("The number should be between " + min + " and " + max + ".");
+                    continue;
+                }
+                return number;
+            } catch (NumberFormatException e) {
+                System.out.println("That's not a valid number.");
+            }
+        }
+    }
 }
