@@ -9,12 +9,14 @@ public class ConsoleUI {
             menuSel = promptInt(mainMenuText(), 1, 5);
             switch (menuSel) {
                 case 1:
+                    //submenu();
                     break;
                 case 2:
                     break;
                 case 3:
                     break;
                 case 4:
+                    //submenu();
                     break;
                 case 5:
                     break;
