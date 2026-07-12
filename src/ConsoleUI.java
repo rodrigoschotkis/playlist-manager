@@ -4,7 +4,22 @@ public class ConsoleUI {
     private Scanner scannerUI;
 
     public void menu() {
-
+        int menuSel = 0;
+        do {
+            menuSel = promptInt(mainMenuText(), 1, 5);
+            switch (menuSel) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        } while (menuSel != 5);
     }
 
     public String mainMenuText() {
