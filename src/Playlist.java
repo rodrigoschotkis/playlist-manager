@@ -37,6 +37,4 @@ public class Playlist {
         }
         return duration;
     }
-
-
 }
