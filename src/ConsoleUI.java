@@ -91,4 +91,15 @@ public class ConsoleUI {
             }
         }
     }
+
+    public String promptString(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String userAnswer = scannerUI.nextLine();
+            if (!userAnswer.trim().isEmpty()) {
+                return userAnswer;
+            }
+            System.out.println("This can't be empty.");
+        }
+    }
 }
