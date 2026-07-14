@@ -42,6 +42,27 @@ public class ConsoleUI {
                 Choose an option: \s""";
     }
 
+    public String managePlaylistsMenuText() {
+        return """
+                1. Add song
+                2. Remove song
+                3. Rename playlist
+                4. Delete playlist
+                5. View playlist
+                6. Return
+                Choose an option: \s""";
+    }
+
+    public String manageLibrarySongsMenuText() {
+        return """
+                1. Add song
+                2. Remove song
+                3. View songs
+                4. Edit song
+                5. Return
+                Choose an option: \s""";
+    }
+
     public String formatDuration(int duration) {
         int minutes = duration / 60;
         int seconds = duration % 60;
