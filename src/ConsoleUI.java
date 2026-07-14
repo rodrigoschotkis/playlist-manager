@@ -2,6 +2,14 @@ import java.util.Scanner;
 
 public class ConsoleUI {
     private Scanner scannerUI;
+    private PlaylistManager manager;
+    private SongLibrary library;
+
+    public ConsoleUI(Scanner scannerUI, PlaylistManager manager, SongLibrary library) {
+        this.scannerUI = scannerUI;
+        this.manager = manager;
+        this.library = library;
+    }
 
     public void menu() {
         int menuSel = 0;
@@ -32,10 +40,6 @@ public class ConsoleUI {
                 4. Manage songs from the library
                 5. Quit
                 Choose an option: \s""";
-    }
-
-    public ConsoleUI(Scanner scannerUI) {
-        this.scannerUI = scannerUI;
     }
 
     public String formatDuration(int duration) {
