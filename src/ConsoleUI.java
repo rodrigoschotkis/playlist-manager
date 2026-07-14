@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ConsoleUI {
@@ -16,20 +17,54 @@ public class ConsoleUI {
         do {
             menuSel = promptInt(mainMenuText(), 1, 5);
             switch (menuSel) {
-                case 1:
-                    //submenu();
+                case 1: {
+                    Playlist playlistSelected = searchPlaylist();
+                    if (playlistSelected == null) {
+                        break;
+                    }
+                    subMenuPlaylists(playlistSelected);
                     break;
-                case 2:
+                }
+                case 2: {
                     break;
-                case 3:
+                }
+                case 3: {
                     break;
-                case 4:
-                    //submenu();
+                }
+                case 4: {
                     break;
+                }
                 case 5:
                     break;
             }
         } while (menuSel != 5);
+    }
+
+    public void subMenuPlaylists(Playlist playlist) {
+        int subMenuSel = 0;
+        do {
+            subMenuSel = promptInt(managePlaylistsMenuText(playlist.getName()), 1, 6);
+            switch (subMenuSel) {
+                case 1: {
+                    break;
+                }
+                case 2: {
+                    break;
+                }
+                case 3: {
+                    break;
+                }
+                case 4: {
+                    break;
+                }
+                case 5: {
+                    break;
+                }
+                case 6: {
+                    break;
+                }
+            }
+        } while (subMenuSel != 6);
     }
 
     public String mainMenuText() {
@@ -42,8 +77,8 @@ public class ConsoleUI {
                 Choose an option: \s""";
     }
 
-    public String managePlaylistsMenuText() {
-        return """
+    public String managePlaylistsMenuText(String playlistName) {
+        return "--- MANAGING: " + playlistName + " ---\n" + """
                 1. Add song
                 2. Remove song
                 3. Rename playlist
@@ -55,6 +90,7 @@ public class ConsoleUI {
 
     public String manageLibrarySongsMenuText() {
         return """
+                --- MANAGING MUSIC LIBRARY ---
                 1. Add song
                 2. Remove song
                 3. View songs
@@ -102,4 +138,33 @@ public class ConsoleUI {
             System.out.println("This can't be empty.");
         }
     }
+
+    public boolean displayListOfPlaylists() {
+        ArrayList<Playlist> p = manager.getPlaylists();
+        if (p.isEmpty()) {
+            System.out.println("You don't have any playlist");
+            return false;
+        }
+        int num = 1;
+        for (Playlist pl : p) {
+            System.out.println(num + ". " + pl.getName());
+            num++;
+        }
+        return true;
+    }
+
+    public Playlist searchPlaylist() {
+        if (!displayListOfPlaylists()) {
+            return null;
+        }
+        String name = promptString("Please type the name of the playlist you'd like to manage: ");
+        Playlist found = manager.searchPlaylist(name);
+        if (found == null) {
+            System.out.println("There is no playlist called: " + name);
+            return null;
+        }
+        return found;
+    }
+
+
 }
