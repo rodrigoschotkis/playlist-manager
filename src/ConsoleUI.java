@@ -77,6 +77,9 @@ public class ConsoleUI {
                     break;
                 }
                 case 3: {
+                    String newName = promptString("Type the new name for the playlist: ");
+                    playlist.setName(newName);
+                    System.out.println("The playlist was successfully renamed to: " + newName);
                     break;
                 }
                 case 4: {
