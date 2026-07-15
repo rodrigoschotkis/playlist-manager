@@ -26,9 +26,18 @@ public class ConsoleUI {
                     break;
                 }
                 case 2: {
+                    String name = promptString("Type the name for the new playlist: ");
+                    if (manager.searchPlaylist(name) != null) {
+                        System.out.println("Error. There is already a playlist called " + name);
+                        break;
+                    }
+                    manager.createPlaylist(new Playlist(name));
+                    System.out.println(name + " was successfully created.");
                     break;
                 }
                 case 3: {
+                    System.out.println("--- YOUR PLAYLISTS ---");
+                    displayListOfPlaylists();
                     break;
                 }
                 case 4: {
@@ -78,6 +87,10 @@ public class ConsoleUI {
                 }
                 case 3: {
                     String newName = promptString("Type the new name for the playlist: ");
+                    if (manager.searchPlaylist(newName) != null) {
+                        System.out.println("Error. There is already a playlist called " + newName);
+                        break;
+                    }
                     playlist.setName(newName);
                     System.out.println("The playlist was successfully renamed to: " + newName);
                     break;
