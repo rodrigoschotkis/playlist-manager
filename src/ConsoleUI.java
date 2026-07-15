@@ -34,8 +34,9 @@ public class ConsoleUI {
                 case 4: {
                     break;
                 }
-                case 5:
+                case 5: {
                     break;
+                }
             }
         } while (menuSel != 5);
     }
@@ -46,9 +47,33 @@ public class ConsoleUI {
             subMenuSel = promptInt(managePlaylistsMenuText(playlist.getName()), 1, 6);
             switch (subMenuSel) {
                 case 1: {
+                    ArrayList<Song> songs = library.getSongs();
+                    System.out.println("--- SONG LIBRARY ---");
+                    if(!displayListOfSongsFull(songs)) {
+                        break;
+                    }
+                    String title = promptString("Type the title of the song you'd like to add to " + playlist.getName() + ": ");
+                    Song song = library.getSong(title);
+                    if (song == null) {
+                        System.out.println("There is no song called " + title + " in the song library.");
+                        break;
+                    }
+                    playlist.addSong(song);
+                    System.out.println(song.getSongTitle() + " was successfully added to " + playlist.getName());
                     break;
                 }
                 case 2: {
+                    ArrayList<Song> songs = playlist.getSongs();
+                    System.out.println("--- SONGS FROM " + playlist.getName() + " ---");
+                    if (!displayListOfSongsNames(songs)) {
+                        break;
+                    }
+                    String title = promptString("Type the title of the song you'd like to remove: ");
+                    if (!playlist.removeSong(title)) {
+                        System.out.println("There is no song named " + title + " in the playlist.");
+                        break;
+                    }
+                    System.out.println(title + " was successfully removed from " + playlist.getName() + ".");
                     break;
                 }
                 case 3: {
@@ -128,6 +153,21 @@ public class ConsoleUI {
         }
     }
 
+    public String promptStringNoNumbers(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String userAnswer = scannerUI.nextLine();
+            if (userAnswer.matches(".*\\d.*")) {
+                System.out.println("This can't contain numbers.");
+                continue;
+            }
+            if (!userAnswer.trim().isEmpty()) {
+                return userAnswer;
+            }
+            System.out.println("This can't be empty.");
+        }
+    }
+
     public String promptString(String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -153,7 +193,35 @@ public class ConsoleUI {
         return true;
     }
 
+    public boolean displayListOfSongsNames(ArrayList<Song> songs) {
+        if (songs.isEmpty()) {
+            System.out.println("No songs to show.");
+            return false;
+        }
+        int num = 1;
+        for (Song s : songs) {
+            System.out.println(num + ". " + s.getSongTitle());
+            num++;
+        }
+        return true;
+    }
+
+    public boolean displayListOfSongsFull(ArrayList<Song> songs) {
+        if (songs.isEmpty()) {
+            System.out.println("No songs to show.");
+            return false;
+        }
+        int num = 1;
+        for (Song s : songs) {
+            System.out.print(num + ". ");
+            displaySong(s);
+            num++;
+        }
+        return true;
+    }
+
     public Playlist searchPlaylist() {
+        System.out.println("--- YOUR PLAYLISTS ---");
         if (!displayListOfPlaylists()) {
             return null;
         }
@@ -166,5 +234,14 @@ public class ConsoleUI {
         return found;
     }
 
+    private Song promptForSong() {
+        String songTitle = promptString("Type the title of the song: ");
+        String artist = promptString("Type the name of the artist: ");
+        String album = promptString("Type the name of the album: ");
+        int duration = promptInt("Type the duration of the song (in seconds): ", 1, 10000);
+        String genre = promptStringNoNumbers("Type the genre of the song: ");
+        int year = promptInt("Type the year of the song: ", 1910, 2026);
+        return new Song(songTitle, artist, album, duration, genre, year);
+    }
 
 }
