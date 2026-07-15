@@ -83,9 +83,17 @@ public class ConsoleUI {
                     break;
                 }
                 case 4: {
-                    break;
+                    manager.removePlaylist(playlist.getName());
+                    System.out.println(playlist.getName() + " was successfully deleted.");
+                    return;
                 }
                 case 5: {
+                    System.out.println("--- SONGS FROM " + playlist.getName() + " ---");
+                    ArrayList<Song> songs = playlist.getSongs();
+                    if (!displayListOfSongsFull(songs)) {
+                        break;
+                    }
+                    System.out.println("Duration of the playlist: " + formatDuration(playlist.getTotalDuration()));
                     break;
                 }
                 case 6: {
