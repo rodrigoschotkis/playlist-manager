@@ -41,6 +41,7 @@ public class ConsoleUI {
                     break;
                 }
                 case 4: {
+                    subMenuLibrary();
                     break;
                 }
                 case 5: {
@@ -116,6 +117,59 @@ public class ConsoleUI {
         } while (subMenuSel != 6);
     }
 
+    public void subMenuLibrary() {
+        int subMenuSel = 0;
+        do {
+            subMenuSel = promptInt(manageLibrarySongsMenuText(), 1, 5);
+            switch (subMenuSel) {
+                case 1: {
+                    Song song = promptForSong();
+                    if (library.getSong(song.getSongTitle()) != null) {
+                        System.out.println("Error. You can't add two songs with the same title.");
+                        break;
+                    }
+                    library.addSong(song);
+                    System.out.println(song.getSongTitle() + " was successfully added to your library.");
+                    break;
+                }
+                case 2: {
+                    ArrayList<Song> songs = library.getSongs();
+                    System.out.println("--- SONG LIBRARY ---");
+                    displayListOfSongsNames(songs);
+                    String title = promptString("Type the title of the song you'd like to remove: ");
+                    if (!library.removeSong(title)) {
+                        System.out.println("There are no songs named " + title);
+                        break;
+                    }
+                    System.out.println(title + " was successfully removed from your library.");
+                    break;
+                }
+                case 3: {
+                    ArrayList<Song> songs = library.getSongs();
+                    System.out.println("--- SONG LIBRARY ---");
+                    displayListOfSongsFull(songs);
+                    break;
+                }
+                case 4: {
+                    ArrayList<Song> songs = library.getSongs();
+                    System.out.println("--- SONG LIBRARY ---");
+                    displayListOfSongsNames(songs);
+                    String title = promptString("Type the title of the song you'd like to edit: ");
+                    Song song = library.getSong(title);
+                    if (song == null) {
+                        System.out.println("Error. There is no song with this title.");
+                        break;
+                    }
+                    editSong(song);
+                    break;
+                }
+                case 5: {
+                    break;
+                }
+            }
+        } while (subMenuSel != 5);
+    }
+
     public String mainMenuText() {
         return """
                 1. Manage my playlists
@@ -145,6 +199,19 @@ public class ConsoleUI {
                 3. View songs
                 4. Edit song
                 5. Return
+                Choose an option: \s""";
+    }
+
+    public String editSongMenuText() {
+        return """
+                Which field would you like to edit?
+                1. Title
+                2. Artist
+                3. Album
+                4. Duration
+                5. Genre
+                6. Year
+                7. Exit
                 Choose an option: \s""";
     }
 
@@ -268,4 +335,54 @@ public class ConsoleUI {
         return new Song(songTitle, artist, album, duration, genre, year);
     }
 
+    private void editSong(Song song) {
+        int edit = 0;
+        do {
+            edit = promptInt(editSongMenuText(), 1, 7);
+            switch (edit) {
+                case 1: {
+                    String songTitle = promptString("Type the new title of the song: ");
+                    if (library.getSong(songTitle) != null) {
+                        System.out.println("Error. You can't add two songs with the same title.");
+                        break;
+                    }
+                    song.setSongTitle(songTitle);
+                    System.out.println("The title was successfully changed to: " + songTitle);
+                    break;
+                }
+                case 2: {
+                    String artist = promptString("Type the new name of the artist: ");
+                    song.setArtist(artist);
+                    System.out.println("The Artist was successfully changed to: " + artist);
+                    break;
+                }
+                case 3: {
+                    String album = promptString("Type the new name of the album: ");
+                    song.setAlbum(album);
+                    System.out.println("The album was successfully changed to: " + album);
+                    break;
+                }
+                case 4: {
+                    int duration = promptInt("Type the new duration of the song (in seconds): ", 1, 10000);
+                    song.setDuration(duration);
+                    System.out.println("The duration was successfully changed to: " + formatDuration(duration));
+                    break;
+                }
+                case 5: {
+                    String genre = promptStringNoNumbers("Type the new genre of the song: ");
+                    song.setGenre(genre);
+                    System.out.println("The genre was successfully changed to: " + genre);
+                    break;
+                }
+                case 6: {
+                    int year = promptInt("Type the new year of the song: ", 1910, 2026);
+                    song.setYear(year);
+                    System.out.println("The year was successfully changed to: " + year);
+                    break;
+                }
+                case 7:
+                    break;
+            }
+        } while (edit != 7);
+    }
 }
